@@ -16,7 +16,7 @@ object AgencyType extends Enumeration {
 
 //<agency tag="actransit" title="AC Transit" regionTitle="California-Northern"/>
 //<Agency Name="AC Transit" HasDirection="True" Mode="Bus"></Agency>
-case class Agency(id: ObjectId = new ObjectId,
+case class Agency(id: String,
                   name: String, // same as title
                   api: String,
                   mode: String = AgencyType.bus, // remove?
@@ -25,8 +25,8 @@ case class Agency(id: ObjectId = new ObjectId,
                   tag: Option[String])
 
 
-object Agency extends ModelCompanion[Agency, ObjectId] {
-  val dao = new SalatDAO[Agency, ObjectId](collection = mongoCollection("agencies")) {}
+object Agency extends ModelCompanion[Agency, String] {
+  val dao = new SalatDAO[Agency, String](collection = mongoCollection("agencies")) {}
 
   def getAllAgencies(): List[Agency] = {
     dao.find(MongoDBObject()).toList

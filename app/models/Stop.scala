@@ -20,8 +20,8 @@ import se.radley.plugin.salat._
 case class Stop(id: String, // use the location as the key
                 stopId: String, // same as StopCode
                 name: String, // same as title
-                agencies: Set[ObjectId],
-                routes: Set[ObjectId],
+                agencies: Set[String],
+                routes: Set[String],
                 loc: GeoJSONPoint,
                 tag: Option[String])
 

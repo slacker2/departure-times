@@ -12,7 +12,7 @@ import se.radley.plugin.salat._
 
 
 object AvailableAPIDomain extends Enumeration {
-  val API511 = "http://services.my511.org/"
+  //val API511 = "http://services.my511.org/"
   val APINextBus = "http://www.nextbus.com/"
 
   //def apiList = List("http://services.my511.org/", "http://www.nextbus.com/")
@@ -38,14 +38,13 @@ object APIProvider extends ModelCompanion[APIProvider, String] {
 
     dao.find(MongoDBObject()).toList.foreach { api =>
       populateAllAgenciesForAPI(api)
-      Thread.sleep(1000)
+      //Thread.sleep(1000)
       val agenciesForCurrentAPI = Agency.dao.find("api" $eq api.id).toList
       agenciesForCurrentAPI.map { agency =>
         populateAllRoutesForAgency(agency)
-        Thread.sleep(1000)
+        //Thread.sleep(1000)
         val routesForCurrentAgency = Route.dao.find("agency" $eq agency.id).toList
         routesForCurrentAgency.map { route =>
-          Thread.sleep(1000)
           populateAllStopsForRoute(route)
         }
       }

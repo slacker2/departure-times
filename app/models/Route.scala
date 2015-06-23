@@ -11,16 +11,16 @@ import se.radley.plugin.salat._
 
 //<agency tag="actransit" title="AC Transit" regionTitle="California-Northern"/>
 //<Agency Name="AC Transit" HasDirection="True" Mode="Bus"></Agency>
-case class Route(id: ObjectId = new ObjectId,
+case class Route(id: String,
                  name: String, // same as title
                  code: String, // same as tag
                  api: String, 
-                 agency: ObjectId 
+                 agency: String 
                  )
 
 
-object Route extends ModelCompanion[Route, ObjectId] {
-  val dao = new SalatDAO[Route, ObjectId](collection = mongoCollection("routes")) {}
+object Route extends ModelCompanion[Route, String] {
+  val dao = new SalatDAO[Route, String](collection = mongoCollection("routes")) {}
 
   def getAllRoutes(): List[Route] = dao.find(MongoDBObject()).toList
 

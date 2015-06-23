@@ -44,13 +44,15 @@ object APINextBus {
     responseFuture.map { response =>
       // <agency tag="actransit" title="AC Transit" regionTitle="California-Northern"/>
       (response.xml \\ "agency").foreach { agencyXML =>
-        val agency = Agency(new ObjectId(),
+        val tag = (agencyXML \ "@tag").toString
+        val id = AvailableAPIDomain.APINextBus + "$" + tag
+        val agency = Agency(id,
                             (agencyXML \ "@title").toString,              // name 
                             AvailableAPIDomain.APINextBus,                // api
                             AgencyType.bus,                               // mode
                             None,                                         // hasDirection
                             Some((agencyXML \ "@regionTitle").toString),  // regionTitle
-                            Some((agencyXML \ "@tag").toString)           // tag
+                            Some(tag)                                     // tag
                            ) 
         Agency.save(agency)
       }
@@ -64,9 +66,11 @@ object APINextBus {
     responseFuture.map { response =>
       // <route tag="F" title="F-Market & Wharves"/>
       (response.xml \\ "route").foreach { routeXML =>
-        val route = Route(new ObjectId(),                   // id
+        val tag = (routeXML \ "@tag").toString
+        val id = agency.id + "$" + tag
+        val route = Route(id,                               // id
                           (routeXML \ "@title").toString,   // name
-                          (routeXML \ "@tag").toString,     // code
+                          tag,                              // code
                           AvailableAPIDomain.APINextBus,    // api
                           agency.id                         // agency
                          )
