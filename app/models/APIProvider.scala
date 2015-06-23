@@ -81,7 +81,5 @@ object APIProvider extends ModelCompanion[APIProvider, String] {
       //case _ => threw new InvalidAPITypeException
     }
   }
-
-
 }
 

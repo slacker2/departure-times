@@ -31,6 +31,10 @@ This service has an API endpoint (see below for API documentation) that will pop
 * [MongoDB](https://www.mongodb.org/) (version 2.6, via [MongoLab](https://mongolab.com/))
   - I primarily chose MongoDB to create a [geospatial index](http://docs.mongodb.org/manual/core/2dsphere/) to assist with finding stops near given coordinates. I have used MongoDB occasionally for the past two years.
 
+### Libararies
+* [JQuery](https://jquery.com/)
+
+
 ### Geolocating the visitor
 The user will be geolocated via their browser. If the browser fails to geolocate, the API will attempt to geolocate the user by IP address, using [MaxMind](https://www.maxmind.com) data, via a server I set up in AWS EC2 for this demonstration.
 
@@ -47,13 +51,14 @@ API Usage
 ----------
 There are 3 primary endpoints of note.
 
-1. A user may also query the API directly by submitting a GET request to (*** TODO: URL HERE ***), using the following URL query string parameters:
+1. A user may also query the API directly by submitting a GET request to "/predictions/query" using the following URL query string parameters:
   * lon - (Required) a double representing the longitude of the location to get predictions of nearby stops.
   * lat - (Required) a double representing the latitude of the location to get predictions of nearby stops.
   * rad - (Optional) a number representing the radius, in meters, from the point specified by the longitude and latitude in which to include stops to show predictions for. If no distance parameter is specified, the default value of 100 will be used.
 
-  Example:
-  > (*** TODO: URL HERE ***)
+  Examples:
+  > http://blooming-reef-6511.herokuapp.com/predictions/query?lon=-122.417702&lat=37.775152
+  > http://blooming-reef-6511.herokuapp.com/predictions/query?lon=-122.417702&lat=37.775152&rad=150
 
   The return value will be JSON with the following format:
 
@@ -67,4 +72,4 @@ There are 3 primary endpoints of note.
 
 Moving Forward 
 ---------------
-If I were to spend more time on this project, I would add a few more freely available APIs to add more data for predictions. I have also entertained adding in schedules, to display in lieu of unavailable predictions. I would also add more robust testing.
+If I were to spend more time on this project, I would add a few more freely available APIs to add more data for predictions. I have also entertained adding in schedules, to display in lieu of unavailable predictions. I think it would also be cool to allow a user to just click somewhere on the map, and predict departure times near that location. I would also add more robust testing.
