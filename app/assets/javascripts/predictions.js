@@ -9,13 +9,10 @@ function loadGoogleMapsAPI() {
   document.body.appendChild(script);
 }
 
-var predictions;
+var predictionResults;
 var map;
 
 function getPredictions() {
-
-  var lon;
-  var lat;
 
   var mapOptions = {
     zoom: 15
@@ -36,26 +33,24 @@ function getPredictions() {
   }
 
   function predictDeparturesWithCoords(pos) {
-    lon = pos.coords.longitude;
-    lat = pos.coords.latitude;
-    var predictionsURL = "/predictions/user?lon=" + lon + "&lat=" + lat;
+    var predictionsURL = "/predictions/query?lon=" + pos.coords.longitude + "&lat=" + pos.coords.latitude;
     console.log(predictionsURL);
     $.get(predictionsURL, function(data, s) {
-      predictions = data;
-      console.log(predictions);
-      drawMap();
+      predictionResults = data;
+      console.log(predictionResults);
+      drawMap(predictionResults.query.lon, predictionResults.query.lat);
     });
 
   }
   function predictDeparturesWithoutCoords(err) {
-    $.get("/predictions/user", function(data, s) {
-      predictions = data;
-      console.log(predictions);
-      drawMap();
+    $.get("/predictions/geolocate", function(data, s) {
+      predictionResults = data;
+      console.log(predictionResults);
+      drawMap(predictionResults.query.lon, predictionResults.query.lat);
     });
   }
 
-  function drawMap() {
+  function drawMap(lon, lat) {
     var pos = new google.maps.LatLng(lat, lon);
     var infoWindow = new google.maps.InfoWindow({
       map: map,

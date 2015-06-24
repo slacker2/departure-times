@@ -66,7 +66,7 @@ There are 3 primary endpoints of note.
 
   If there is not a stop within the radius of the location specified by the longitude and latitude, the API will return an empty JSON body.
 
-2. A user can make a GET request the "/no-co-ordinates" endpoint to be geolocated by their IP and get the predicted departure times for stops near that location.
+2. A user can make a GET request the "/predictions/geolocate" endpoint to be geolocated by their IP and get the predicted departure times for stops near that location.
 
 3. A user can also make a GET request to "/populate" to trigger a database repopulation. In the event that the agency / route / stop data available from the NextBus API changes, the database can be updated programmatically by using this endpoint. (NOTE: If any agency, route, or stop is removed from the NextBus API, it will not be removed from the database.) 
 

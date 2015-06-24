@@ -4,7 +4,7 @@
 
 # Prediction endpoints
 GET     /                           controllers.PredictionController.index
-GET     /predictions/user           controllers.PredictionController.predictDepartureTimesNearUser
+GET     /predictions/geolocate      controllers.PredictionController.predictDepartureTimesNearIP
 GET     /predictions/query          controllers.PredictionController.predictDepartureTimesNearQuery
 
 # Populate endpoint

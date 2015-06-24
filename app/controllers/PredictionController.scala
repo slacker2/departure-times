@@ -16,64 +16,50 @@ object PredictionController extends Controller {
     Ok(views.html.predictions())
   }
 
-  def predictDepartureTimesNearUser() = Action.async {
-    implicit request =>
-
-      try {
-
-        // (90.0, 0.0) are the coordinates for Antartica
-        val lon = request.queryString.get("lon").map { s => s.head.toDouble }.getOrElse(90.0)
-        val lat = request.queryString.get("lat").map { s => s.head.toDouble }.getOrElse(0.0)
-
-        // If the clientside API was able to successfully geolocate
-        if(lon != 90.0 && lat != 0.0) {
-          predictDepartureTimesNear(lon, lat, 200).map { p => Ok(Json.toJson(p)) }
-        } else {
-          WS.url("http://52.4.157.228:8080/csv/" + request.remoteAddress).get().flatMap { response =>
-            // (0)ip,(1)country_code,(2)country_name,(3)region_code,
-            // (4)region_name,(5)city,(6)zip_code,(7)time_zone,(8)latitude,
-            // (9)longitude,(10)metro_code
-            val locationArray = response.body.split(",")
-            val latitude = locationArray(8).toDouble
-            val longitude = locationArray(9).toDouble
-            //predictDepartureTimesNear(longitude, latitude, 200).map { p => Ok(p.toString) }
-            predictDepartureTimesNear(longitude, latitude, 200).map { p => Ok(Json.toJson(p)) }
-          }
+  def predictDepartureTimesNearIP() = Action.async { implicit request =>
+    try {
+      WS.url("http://52.4.157.228:8080/csv/" + request.remoteAddress).get().flatMap { response =>
+        // (0)ip,(1)country_code,(2)country_name,(3)region_code,
+        // (4)region_name,(5)city,(6)zip_code,(7)time_zone,(8)latitude,
+        // (9)longitude,(10)metro_code
+        val locationArray = response.body.split(",")
+        val latitude = locationArray(8).toDouble
+        val longitude = locationArray(9).toDouble
+        predictDepartureTimesNear(longitude, latitude, 200).map { predictions => 
+          Ok(predictions) 
         }
-      } catch {
-        case _: Throwable => Future(BadRequest)
       }
+    } catch {
+      case _: Throwable => Future(BadRequest)
+    }
   }
 
-  def predictDepartureTimesNearQuery() = Action.async {
-    implicit request =>
-      try {
-        val lon = request.queryString.get("lon").map { s => s.head.toDouble }.get
-        val lat = request.queryString.get("lat").map { s => s.head.toDouble }.get
-        val rad = request.queryString.get("rad").map { s => s.head.toInt }.getOrElse(200)
-        predictDepartureTimesNear(lon, lat, rad).map { p => Ok(Json.toJson(p)) }
-      } catch {
-        case _: Throwable => Future(BadRequest)
+  def predictDepartureTimesNearQuery() = Action.async { implicit request =>
+    try {
+      val lon = request.queryString.get("lon").map { s => s.head.toDouble }.get
+      val lat = request.queryString.get("lat").map { s => s.head.toDouble }.get
+      val rad = request.queryString.get("rad").map { s => s.head.toInt }.getOrElse(200)
+      predictDepartureTimesNear(lon, lat, rad).map { predictions => 
+        Ok(predictions) 
       }
+    } catch {
+      case _: Throwable => Future(BadRequest)
+    }
   }
 
-  //private def predictDepartureTimesNear(lon: Double, lat: Double, rad: Int) = Action.async {
-  private def predictDepartureTimesNear(lon: Double, lat: Double, rad: Int): Future[List[JsValue]] = {
+  private def predictDepartureTimesNear(lon: Double, lat: Double, rad: Int): Future[JsValue] = {
     val stops = Stop.getStopsNear(lon, lat, rad)
 
     val predictionList = stops.map { stop =>
       APIProvider.getPredictedDepartureTimesForStop(stop)
     }
 
-    //val flattenedPredictions = predictionList.flatMap { predictionSet =>
-    //  predictionSet.map { predictionFuture =>
-    //    predictionFuture
-    //  }
-    //}
-
-    //Future.sequence(flattenedPredictions)
-    Future.sequence(predictionList)
-
+    Future.sequence(predictionList).map { predictions =>
+      Json.obj(
+        "query" -> Json.obj("lon" -> lon, "lat" -> lat, "rad" -> rad),
+        "predictions" -> predictions
+      )
+    }
   }
 
 }
