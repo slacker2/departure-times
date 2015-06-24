@@ -118,8 +118,8 @@ Moving Forward
 ---------------
 If I were to spend more time on this project, here are a few directions I would go with it:
 * The geolocation doesn't seem to work as well as I had hoped, so I'd probably defer to using another geolocation service, like Google's API.
-* I would add a few more freely available APIs to add more data for predictions. 
-* I think it might be handy to add in schedules; to display in lieu of unavailable predictions. 
-* I'd figure out how to allow a user to just click somewhere on the map, and predict departure times near that location. 
-* I would add more robust testing.
-* I would add some intelligent cacheing for stops that have very recently had predictions.
+* Add a few more freely available APIs to add more data for predictions. 
+* Add in scheduled departure times; to display in lieu of unavailable predictions or in addition to the predictions. 
+* Figure out how to allow a user to just click somewhere on the map, and predict departure times near that location. 
+* Add some intelligent cacheing for stops that have very recently had predictions.
+* Make stops appear on the map, and have some sort of UI response to listed predictions and the stop on the map.
