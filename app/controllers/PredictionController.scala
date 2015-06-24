@@ -25,7 +25,7 @@ object PredictionController extends Controller {
         val locationArray = response.body.split(",")
         val latitude = locationArray(8).toDouble
         val longitude = locationArray(9).toDouble
-        predictDepartureTimesNear(longitude, latitude, 200).map { predictions => 
+        predictDepartureTimesNear(longitude, latitude, 100).map { predictions => 
           Ok(predictions) 
         }
       }
@@ -38,7 +38,7 @@ object PredictionController extends Controller {
     try {
       val lon = request.queryString.get("lon").map { s => s.head.toDouble }.get
       val lat = request.queryString.get("lat").map { s => s.head.toDouble }.get
-      val rad = request.queryString.get("rad").map { s => s.head.toInt }.getOrElse(200)
+      val rad = request.queryString.get("rad").map { s => s.head.toInt }.getOrElse(100)
       predictDepartureTimesNear(lon, lat, rad).map { predictions => 
         Ok(predictions) 
       }
