@@ -5,7 +5,7 @@ function loadGoogleMapsAPI() {
   var script = document.createElement('script');
   script.type = 'text/javascript';
   // Will automagically callback to getPredictions
-  script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&callback=getPredictions';
+  script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&callback=getPredictions';
   document.body.appendChild(script);
 }
 
