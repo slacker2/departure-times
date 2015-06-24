@@ -18,6 +18,8 @@ Technical Choices
 ### Functional Overview
 This service has an API endpoint (see below for API documentation) that will populate the database with all of the transportation agencies, routes, and stops known by the NextBus API. It does so programatically and idempotently. Once the database is populated, queries can be made against the prediction endpoints. When provided with longitude and latitude coordinates, the service will find stops within a variable radius of the given location using the data in the database. Once the relevant stops are located, calls to the NextBus API will be made to get the predicted departure times of buses from those stops.
 
+### Folders / Files of Interest
+All of the actual code and work is done in the "app" directory. Everything in there was written by me.
 
 ### Stack
 * [Play Framework](https://www.playframework.com/) (version 2.3.7)
