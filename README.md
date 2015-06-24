@@ -109,7 +109,7 @@ There are 3 primary endpoints of note.
   The "query" object represents the query made to generate these results (i.e. the parameters). The "stops" array as a list of all of the stops that were within the specified radius, the departure time predictions for that stop, and some other relevant information. If there is not a stop within the radius of the location specified by the longitude and latitude, the API will return an empty JSON body. Invalid parameters will result in a status code 400 (Bad Request).
 
 2. > /predictions/geolocate
-  * When making a GET request this endpoint, the requests IP will be geolocated, and those coordinates will be used to predicted departure times for stops near that location. The format will be identical to the format for the /predictions/query endpoint.
+  * When making a GET request this endpoint, the request's IP will be geolocated, and those coordinates will be used to predicted departure times for stops near that location. The format will be identical to the format for the /predictions/query endpoint.
 
 3. > /populate
   * When making a GET request to this endpoint, it will trigger a database repopulation. In the event that the agency / route / stop data available from the NextBus API changes, the database can be updated programmatically by using this endpoint. (NOTE: If any agency, route, or stop is removed from the NextBus API, it will not be removed from the database.) 
@@ -122,3 +122,4 @@ If I were to spend more time on this project, here are a few directions I would 
 * I think it might be handy to add in schedules; to display in lieu of unavailable predictions. 
 * I'd figure out how to allow a user to just click somewhere on the map, and predict departure times near that location. 
 * I would add more robust testing.
+* I would add some intelligent cacheing for stops that have very recently had predictions.
