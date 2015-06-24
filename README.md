@@ -61,7 +61,7 @@ There are 3 primary endpoints of note.
   * To query the API directly, submit a GET request to this endpoint using the following URL query string parameters:
     * lon - (Required) a double representing the longitude of the location to get predictions of nearby stops.
     * lat - (Required) a double representing the latitude of the location to get predictions of nearby stops.
-    * rad - (Optional) a number representing the radius, in meters, from the point specified by the longitude and latitude in which to include stops to show predictions for. If no distance parameter is specified, the default value of 100 will be used.
+    * rad - (Optional) an integer representing the radius, in meters, from the point specified by the longitude and latitude in which to include stops to show predictions for. If no distance parameter is specified, the default value of 100 will be used.
 
   Examples:
   ```

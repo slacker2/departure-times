@@ -32,14 +32,16 @@ object APINextBus {
       val responseFuture = predictionsCommandRequest.get()
 
       responseFuture.map { response =>
-        (response.xml \\ "predictions").map { predictions =>
-          Json.obj(
-            "route" -> (predictions \ "@routeTitle").text,
-            "direction" -> (predictions \ "direction" \ "@title").text,
-            "estimates" -> JsArray((predictions \ "direction" \ "prediction").map { prediction => 
-                JsNumber((prediction \ "@minutes").text.toInt) 
-              })
-          )
+        (response.xml \\ "predictions").flatMap { predictions =>
+          (response.xml \ "predictions" \ "direction").map { direction =>
+            Json.obj(
+              "route" -> (predictions \ "@routeTitle").text,
+              "direction" -> (direction \ "@title").text,
+              "estimates" -> JsArray((direction \ "prediction").map { prediction => 
+                  JsNumber((prediction \ "@minutes").text.toInt) 
+                })
+            )
+          }
         }
       }
     }

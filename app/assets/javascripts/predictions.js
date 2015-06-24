@@ -14,11 +14,7 @@ var map;
 
 function getPredictions() {
 
-  var mapOptions = {
-    zoom: 15
-  };
-
-  map = new google.maps.Map(document.getElementById('map'), mapOptions);
+  map = new google.maps.Map(document.getElementById('map'), { zoom: 15 });
 
   var geoLocationOptions = {
     enableHighAccuracy: true,
@@ -34,11 +30,11 @@ function getPredictions() {
 
   function predictDeparturesWithCoords(pos) {
     var predictionsURL = "/predictions/query?lon=" + pos.coords.longitude + "&lat=" + pos.coords.latitude;
-    console.log(predictionsURL);
     $.get(predictionsURL, function(data, s) {
       predictionResults = data;
       console.log(predictionResults);
       drawMap(predictionResults.query.lon, predictionResults.query.lat);
+      displayPredictionResults();
     });
 
   }
@@ -47,6 +43,7 @@ function getPredictions() {
       predictionResults = data;
       console.log(predictionResults);
       drawMap(predictionResults.query.lon, predictionResults.query.lat);
+      displayPredictionResults();
     });
   }
 
@@ -59,5 +56,18 @@ function getPredictions() {
     });
     map.setCenter(pos);
   }
+
+  function displayPredictionResults() {
+    predictionResults.stops.forEach( function(currStop) {
+      currStop.predictions.forEach( function(currPrediction) {
+        $("#predictions").append( "<tr>" + 
+          "<td>" + currStop.name + "</td>" +
+          "<td>" + currPrediction.route + "</td>" +
+          "<td>" + currPrediction.direction + "</td>" +
+          "<td>" + currPrediction.estimates + "</td></tr>");
+      });
+    });
+  }
+
 }
 
