@@ -31,7 +31,7 @@ All of the actual code and work is done in the "app" directory. Everything in th
     1. It is more readable, expressive, and concise than the alternative, Java.
     2. I have been primarily developing in Scala for the past 7 months; this is all the experience I have with this language.
 * [MongoDB](https://www.mongodb.org/) (version 2.6, via [MongoLab](https://mongolab.com/))
-  - I primarily chose MongoDB to create a [geospatial index](http://docs.mongodb.org/manual/core/2dsphere/) to assist with finding stops near given coordinates. I have used MongoDB occasionally for the past two years.
+  - A database to store the queryable data is necessary to find stops close to the user, and to cut back on API calls. I primarily chose MongoDB to create a [geospatial index](http://docs.mongodb.org/manual/core/2dsphere/) to assist with finding stops near given coordinates. I have used MongoDB occasionally for the past two years.
 
 
 ### Libararies / Resources
@@ -126,3 +126,4 @@ If I were to spend more time on this project, here are a few directions I would 
 * Figure out how to allow a user to just click somewhere on the map, and predict departure times near that location. 
 * Add some intelligent cacheing for stops that have very recently had predictions.
 * Make stops appear on the map, and have some sort of UI response to listed predictions and the stop on the map.
+* Add path information to routes when available. Perhaps show paths on the map.
