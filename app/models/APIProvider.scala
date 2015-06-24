@@ -1,11 +1,12 @@
 package models
 
-import play.api.Play.current
 import com.novus.salat._
 import com.novus.salat.annotations._
 import com.novus.salat.dao._
 import com.mongodb.casbah.Imports._
 import customMongoContext._
+import play.api.libs.json._
+import play.api.Play.current
 import scala.concurrent.Future
 import scala.xml.Elem
 import se.radley.plugin.salat._
@@ -24,7 +25,7 @@ case class APIProvider (id: String)
 object APIProvider extends ModelCompanion[APIProvider, String] {
   val dao = new SalatDAO[APIProvider, String](collection = mongoCollection("apiproviders")) {}
 
-  def getPredictedDepartureTimesForStop(stop: Stop): Set[Future[scala.xml.Elem]] = {
+  def getPredictedDepartureTimesForStop(stop: Stop): Future[JsValue] = {
     val agency = Agency.findOneById(id = stop.agencies.head)
     agency.get.api match {
       case AvailableAPIDomain.APINextBus => APINextBus.getPredictedDepartureTimesForStop(agency.get, stop)
@@ -38,11 +39,11 @@ object APIProvider extends ModelCompanion[APIProvider, String] {
 
     dao.find(MongoDBObject()).toList.foreach { api =>
       populateAllAgenciesForAPI(api)
-      //Thread.sleep(1000)
+      Thread.sleep(200)
       val agenciesForCurrentAPI = Agency.dao.find("api" $eq api.id).toList
       agenciesForCurrentAPI.map { agency =>
         populateAllRoutesForAgency(agency)
-        //Thread.sleep(1000)
+        Thread.sleep(200)
         val routesForCurrentAgency = Route.dao.find("agency" $eq agency.id).toList
         routesForCurrentAgency.map { route =>
           populateAllStopsForRoute(route)
