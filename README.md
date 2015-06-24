@@ -5,7 +5,7 @@ Project Overview
 ---------
 This project is a service that gives real-time departure time predictions for bus stops within 100 meters of the visitor's location.
 
-You can see this project in action here: blooming-reef-6511.herokuapp.com
+You can see this project in action here: https://blooming-reef-6511.herokuapp.com
 
 All bus, route, stop, and prediction data is provided by the [NextBus API](http://www.nextbus.com/xmlFeedDocs/NextBusXMLFeed.pdf). 
 
@@ -57,7 +57,7 @@ API Usage
 ----------
 There are 3 primary endpoints of note.
 
-1. > /preictions/query 
+1. > /predictions/query 
   * To query the API directly, submit a GET request to this endpoint using the following URL query string parameters:
     * lon - (Required) a double representing the longitude of the location to get predictions of nearby stops.
     * lat - (Required) a double representing the latitude of the location to get predictions of nearby stops.
@@ -65,9 +65,9 @@ There are 3 primary endpoints of note.
 
   Examples:
   ```
-  http://blooming-reef-6511.herokuapp.com/predictions/query?lon=-122.417702&lat=37.775152
+  http://blooming-reef-6511.herokuapp.com/predictions/query?lon=-122.43110589999999&lat=37.7757144
 
-  http://blooming-reef-6511.herokuapp.com/predictions/query?lon=-122.417702&lat=37.775152&rad=150
+  http://blooming-reef-6511.herokuapp.com/predictions/query?lon=-122.43110589999999&lat=37.7757144&rad=150
   ```
 
   The return value will be JSON with the following format:
@@ -77,27 +77,27 @@ There are 3 primary endpoints of note.
         "lat" : 37.7757144,
         "rad" : 100
       },
-    "predictions":
+    "stops":
       [{ "name" : "Fillmore St & Hayes St",
          "loc" : { "lon" : -122.43121, "lat" : 37.7756 },
-         "predictions": [
-           { "route" : "22-Fillmore",
+         "predictions":
+           [{ "route" : "22-Fillmore",
              "direction" : "",
              "estimates" : [44,16,30,45,60,75]
            }]
        },
        { "name" : "Hayes St & Fillmore St",
          "loc" : { "lon" : -122.43083, "lat" : 37.7757999 },
-         "predictions": [
-           { "route" : "21-Hayes",
+         "predictions":
+           [{ "route" : "21-Hayes",
              "direction" : "Inbound to Downtown",
              "estimates" : [4,33,63,93]
            }]
        },
        { "name" : "Hayes St & Fillmore St",
          "loc" : {"lon" : -122.4315599, "lat" : 37.77584 },
-         "predictions" : [
-           { "route" : "21-Hayes",
+         "predictions" :
+           [{ "route" : "21-Hayes",
              "direction" : "Outbound to Golden Gate Park",
              "estimates" : [2,30,60,90]
            }]
@@ -106,7 +106,7 @@ There are 3 primary endpoints of note.
 
   ```
 
-  The "query" object represents the query made to generate these results (i.e. the parameters). The "predictions" array as a list of all of the stops that were within the specified radius, the departure time predictions for that stop, and some other relevant information. If there is not a stop within the radius of the location specified by the longitude and latitude, the API will return an empty JSON body. Invalid parameters will result in a status code 400 (Bad Request).
+  The "query" object represents the query made to generate these results (i.e. the parameters). The "stops" array as a list of all of the stops that were within the specified radius, the departure time predictions for that stop, and some other relevant information. If there is not a stop within the radius of the location specified by the longitude and latitude, the API will return an empty JSON body. Invalid parameters will result in a status code 400 (Bad Request).
 
 2. > /predictions/geolocate
   * When making a GET request this endpoint, the requests IP will be geolocated, and those coordinates will be used to predicted departure times for stops near that location. The format will be identical to the format for the /predictions/query endpoint.
@@ -119,6 +119,6 @@ Moving Forward
 If I were to spend more time on this project, here are a few directions I would go with it:
 * The geolocation doesn't seem to work as well as I had hoped, so I'd probably defer to using another geolocation service, like Google's API.
 * I would add a few more freely available APIs to add more data for predictions. 
-* I have also entertained adding in schedules, to display in lieu of unavailable predictions. 
+* I think it might be handy to add in schedules; to display in lieu of unavailable predictions. 
 * I'd figure out how to allow a user to just click somewhere on the map, and predict departure times near that location. 
-* I would also add more robust testing.
+* I would add more robust testing.

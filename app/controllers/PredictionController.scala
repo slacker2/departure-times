@@ -57,7 +57,7 @@ object PredictionController extends Controller {
     Future.sequence(predictionList).map { predictions =>
       Json.obj(
         "query" -> Json.obj("lon" -> lon, "lat" -> lat, "rad" -> rad),
-        "predictions" -> predictions
+        "stops" -> predictions
       )
     }
   }
