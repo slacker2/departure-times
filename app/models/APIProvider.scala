@@ -39,11 +39,11 @@ object APIProvider extends ModelCompanion[APIProvider, String] {
 
     dao.find(MongoDBObject()).toList.foreach { api =>
       populateAllAgenciesForAPI(api)
-      Thread.sleep(200)
+      Thread.sleep(1000)
       val agenciesForCurrentAPI = Agency.dao.find("api" $eq api.id).toList
       agenciesForCurrentAPI.map { agency =>
         populateAllRoutesForAgency(agency)
-        Thread.sleep(200)
+        Thread.sleep(2000)
         val routesForCurrentAgency = Route.dao.find("agency" $eq agency.id).toList
         routesForCurrentAgency.map { route =>
           populateAllStopsForRoute(route)
