@@ -119,7 +119,6 @@ There are 3 primary endpoints of note.
 Moving Forward 
 ---------------
 If I were to spend more time on this project, here are a few directions I would go with it:
-* I realize that I left statically configured info in my project (e.g. geolocation server IP, MongoDB URI, etc.), and I would not do that in production or real-life, but I left them there for simplicity.
 * The IP geolocation doesn't seem to work as well as I had hoped, so I'd probably defer to using another geolocation service, like Google's API.
 * Add a few more freely available APIs to add more data for predictions. 
 * Add in scheduled departure times; to display in lieu of unavailable predictions or in addition to the predictions. 

@@ -18,7 +18,7 @@ object PredictionController extends Controller {
 
   def predictDepartureTimesNearIP() = Action.async { implicit request =>
     try {
-      WS.url("http://52.4.157.228:8080/csv/" + request.remoteAddress).get().flatMap { response =>
+      WS.url("http://127.0.0.1:8080/csv/" + request.remoteAddress).get().flatMap { response =>
         // (0)ip,(1)country_code,(2)country_name,(3)region_code,
         // (4)region_name,(5)city,(6)zip_code,(7)time_zone,(8)latitude,
         // (9)longitude,(10)metro_code
