@@ -5,8 +5,6 @@ Project Overview
 ---------
 This project is a service that gives real-time departure time predictions for bus stops within 100 meters of the visitor's location.
 
-You can see this project in action here: https://blooming-reef-6511.herokuapp.com
-
 All bus, route, stop, and prediction data is provided by the [NextBus API](http://www.nextbus.com/xmlFeedDocs/NextBusXMLFeed.pdf). 
 
 Focus
@@ -67,9 +65,9 @@ There are 3 primary endpoints of note.
 
   Examples:
   ```
-  http://blooming-reef-6511.herokuapp.com/predictions/query?lon=-122.43110589999999&lat=37.7757144
+  http://127.0.0.1/predictions/query?lon=-122.43110589999999&lat=37.7757144
 
-  http://blooming-reef-6511.herokuapp.com/predictions/query?lon=-122.43110589999999&lat=37.7757144&rad=150
+  http://127.0.0.1/predictions/query?lon=-122.43110589999999&lat=37.7757144&rad=150
   ```
 
   The return value will be JSON with the following format:
