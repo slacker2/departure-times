@@ -16,18 +16,10 @@ Technical Choices
 ### Functional Overview
 This service has an API endpoint (see below for API documentation) that will populate the database with all of the transportation agencies, routes, and stops known by the NextBus API. It does so programatically and idempotently. Once the database is populated, queries can be made against the prediction endpoints. When provided with longitude and latitude coordinates, the service will find stops within a variable radius of the given location using the data in the database. Once the relevant stops are located, calls to the NextBus API will be made to get the predicted departure times of buses from those stops.
 
-### Folders / Files of Interest
-All of the actual code and work is done in the "app" directory. Everything in there was written by me.
-
 ### Stack
 * [Play Framework](https://www.playframework.com/) (version 2.3.7)
-  - I chose Play for 2 primary reasons:
-    1. The simplicity in asynchronous, non-blocking I/O. Conceptually, if this were larger scale, since this API functions as a middleman to the NextBus API (and possibly others), it is important to not block on waiting for other APIs to return. It also enables several API calls to be made in parallel.
-    2. I have been frequently developing on top of Play for the past 7 months; this is all the experience I have with this framework.
+  - I primarily chose Play for the simplicity in asynchronous, non-blocking I/O. Conceptually, if this were larger scale, since this API functions as a middleman to the NextBus API (and possibly others), it is important to not block on waiting for other APIs to return. It also enables several API calls to be made in parallel.
 * [Scala](http://www.scala-lang.org/) (version 2.11.6)
-  - I chose Scala for 2 primary reasons:
-    1. It is more readable, expressive, and concise than the alternative, Java.
-    2. I have been primarily developing in Scala for the past 7 months; this is all the experience I have with this language.
 * [MongoDB](https://www.mongodb.org/) (version 2.6, via [MongoLab](https://mongolab.com/))
   - A database to store the queryable data is necessary to find stops close to the user, and to cut back on API calls. I primarily chose MongoDB to create a [geospatial index](http://docs.mongodb.org/manual/core/2dsphere/) to assist with finding stops near given coordinates. I have used MongoDB occasionally for the past two years.
 
@@ -120,7 +112,7 @@ If I were to spend more time on this project, here are a few directions I would 
 * The IP geolocation doesn't seem to work as well as I had hoped, so I'd probably defer to using another geolocation service, like Google's API.
 * Add a few more freely available APIs to add more data for predictions. 
 * Add in scheduled departure times; to display in lieu of unavailable predictions or in addition to the predictions. 
-* Figure out how to allow a user to just click somewhere on the map, and predict departure times near that location. 
+* Functionality to allow a user to click somewhere on the map, and predict departure times near that location. 
 * Add some intelligent cacheing for stops that have very recently had predictions.
 * Make stops appear on the map, and have some sort of UI response to listed predictions and the stop on the map.
 * Add path information to routes when available. Perhaps show paths on the map.
